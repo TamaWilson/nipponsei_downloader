@@ -1,9 +1,9 @@
 alias ddl { 
-  set %file C:\pack_numbers.txt
+  set %file C:\Users\Tama\Music\Minhas Listas de Reprodução\msg_numeros.txt
   if (!$var(%cont)) {
     set %cont  1
   }
-  echo -s msg Nippon|zongzing xdcc send $read(%file,%cont)
+  msg Nippon|zongzing xdcc send $read(%file,%cont)
 }
 
 on *:filercvd:*: { 
