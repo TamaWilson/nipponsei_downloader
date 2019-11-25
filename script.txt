@@ -1,0 +1,59 @@
+alias ddl { 
+  set %file C:\pack_numbers.txt
+  set %cont 1
+  msg Nippon|zongzing xdcc send $read(%file,%cont)
+}
+
+on *:filercvd:*: { 
+  inc %cont
+  disable #autorty 
+  msg Nippon|zongzing xdcc send $read(%file,%cont)
+  write -c c:\contador.txt %cont
+}
+
+on *:getfail:*: { 
+  IF ( $address( Nippon|zongzing , 1) != $null) {
+    timerbot1 1 190  msg Nippon|zongzing xdcc send $read(%file,%cont)  
+  } 
+  ELSE { 
+    enable #autorty
+  }
+}
+
+on *:notice:*you already requested that pack*:*: {   
+  timerbot1 1 150  msg Nippon|zongzing xdcc send $read(%file,%cont)
+}
+
+on *:notice:*Auto-ignore activated for*:*: {   
+  timerbot4 1 150  msg Nippon|zongzing xdcc send $read(%file,%cont)
+}
+
+ON *:DISCONNECT: { 
+  set %disc on 
+}
+
+ON *:CONNECT: { 
+  join #Nipponsei
+  IF ( %disc == on ) { 
+    timerbot3 1 20 msg Nippon|zongzing xdcc send $read(%file,%cont) 
+    set %disc off
+  }
+}
+
+#autorty off
+on *:join:#: { 
+  IF ($nick == Nippon|zongzing ) { 
+    timerbot2 1 20 msg Nippon|zongzing xdcc send $read(%file,%cont) 
+  }
+}
+#autorty end
+
+alias st { 
+  echo -a %cont
+}
+
+alias skp {
+  inc %cont  
+  timerbot1 off
+  msg Nippon|zongzing xdcc send $read(%file,%cont)
+}
